@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { WEIGHTS } from '../../constants';
+import { MEDIA_QUERIES } from '../../constants';
 
 import Breadcrumbs from '../Breadcrumbs';
 import Select from '../Select';
@@ -35,22 +35,38 @@ const ShoeIndex = ({ sortId, setSortId }) => {
             Shoes
           </Breadcrumbs.Crumb>
         </Breadcrumbs>
-        <Spacer size={42} />
-        <ShoeSidebar />
+
+        <StyledShoeSidebar />
       </LeftColumn>
     </Wrapper>
   );
 };
+
+const StyledShoeSidebar = styled(ShoeSidebar)`
+  margin-top: 40px;
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    display: none;
+  }
+`;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: row-reverse;
   align-items: baseline;
   gap: 32px;
+
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    flex-direction: column-reverse;
+    gap: 0px;
+  }
 `;
 
 const LeftColumn = styled.div`
   flex-basis: 248px;
+
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    flex-basis: 0;
+  }
 `;
 
 const MainColumn = styled.div`
@@ -60,12 +76,18 @@ const MainColumn = styled.div`
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
+
+  @media (${MEDIA_QUERIES.phoneAndUnder}) {
+    label {
+      display: none;
+    }
+  }
 `;
 
 const Title = styled.h2`
   font-size: 1.5rem;
-  font-weight: ${WEIGHTS.medium};
+  font-weight: var(--weight-medium);
 `;
 
 export default ShoeIndex;

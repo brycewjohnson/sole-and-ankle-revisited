@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import { MEDIA_QUERIES } from '../../constants';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
+import Icon from '../Icon';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -16,7 +17,7 @@ const Header = () => {
 
   return (
     <header>
-      <SuperHeader />
+      <StyledSuperHeader />
       <MainHeader>
         <Side>
           <Logo />
@@ -30,6 +31,11 @@ const Header = () => {
           <NavLink href="/collections">Collections</NavLink>
         </Nav>
         <Side />
+        <NavIcons>
+          <Icon id="shopping-bag" />
+          <Icon id="search" />
+          <button onClick={() => setShowMobileMenu(true)}><Icon id="menu" /></button>
+        </NavIcons>
       </MainHeader>
 
       <MobileMenu
@@ -40,18 +46,51 @@ const Header = () => {
   );
 };
 
+const StyledSuperHeader = styled(SuperHeader)`
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    display: none;
+  }
+`;
+
+const NavIcons = styled.nav`
+  display: none;
+
+  button {
+    border: none;
+    background-color: transparent;
+  }
+
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    display: flex;
+    gap: 32px;
+  }
+
+  @media (${MEDIA_QUERIES.phoneAndUnder}) {
+    gap: 16px;
+  }
+`;
+
 const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
   height: 72px;
-  border-bottom: 1px solid ${COLORS.gray[300]};
+  border-bottom: 1px solid var(--color-gray-300);
+  overflow-x: auto;
+
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    border-top: 4px solid var(--color-gray-900);
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
-  gap: 48px;
+  gap: clamp(1rem, 6vw - 2.5rem, 3rem);
   margin: 0px 48px;
+
+  @media (${MEDIA_QUERIES.tabletAndUnder}) {
+    display: none;
+  }
 `;
 
 const Side = styled.div`
@@ -62,11 +101,11 @@ const NavLink = styled.a`
   font-size: 1.125rem;
   text-transform: uppercase;
   text-decoration: none;
-  color: ${COLORS.gray[900]};
-  font-weight: ${WEIGHTS.medium};
+  color: var(--color-gray-900);
+  font-weight: var(--weight-medium);
 
   &:first-of-type {
-    color: ${COLORS.secondary};
+    color: var(--color-secondary);
   }
 `;
 
